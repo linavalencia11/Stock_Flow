@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Articulo;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ArticuloController extends Controller
 {
@@ -44,6 +45,7 @@ class ArticuloController extends Controller
         if ($request->hasFile('foto')) {
             $articulo->foto = $request->file('foto')->store('articulos', 'public');
         }
+        $articulo->id = (string) Str::uuid();
 
         $articulo->save();
 

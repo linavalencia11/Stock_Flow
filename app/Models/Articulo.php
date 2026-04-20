@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+use App\Models\Str;
 use App\Models\Prestamo;
 use App\Models\Categoria;
 
@@ -14,6 +15,17 @@ class Articulo extends Model
     protected $table = 'articulos';
     public $incrementing = false;
     protected $keyType = 'string';
+/*
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
+            }
+        });
+    }*/
 
     protected $fillable = [
         'nombre',
