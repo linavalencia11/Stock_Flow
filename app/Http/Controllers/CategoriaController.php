@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Str;
+
 class CategoriaController extends Controller
 {
     /**
@@ -32,8 +34,9 @@ class CategoriaController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255|unique:categorias,nombre',
         ]);
-
-        Categoria::create($request->only('nombre'));
+        $categoria = new Categoria($request->only('nombre'));
+        $categoria->id = (string) Str::uuid();
+        $categoria->save();
 
         return redirect()->route('categorias.index')
                          ->with('success', 'Categoría creada exitosamente.');
