@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Rol;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Str;
+
 class RolController extends Controller
 {
     public function index()
@@ -24,7 +26,9 @@ class RolController extends Controller
             'nombre' => 'required|string|max:255|unique:roles,nombre',
         ]);
 
-        Rol::create($request->only('nombre'));
+        $rol = new Rol($request->only('nombre'));
+        $rol->id = (string) Str::uuid();
+        $rol->save();
 
         return redirect()->route('roles.index')
                          ->with('success', 'Rol creado exitosamente.');
