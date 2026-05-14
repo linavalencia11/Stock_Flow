@@ -28,11 +28,11 @@ class Usuario extends Authenticatable
         'password' => 'hashed',
         'activo'   => 'boolean',
     ];
-
+    /*
     public function getRememberTokenName(): string
     {
         return '';
-    }
+    }*/
 
     public function rol(): BelongsTo
     {
