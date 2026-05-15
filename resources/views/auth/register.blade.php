@@ -1,12 +1,18 @@
 <x-guest-layout>
     <form method="POST" action="{{ route('register') }}">
         @csrf
-
-        <!-- Name -->
+        <!--cedula-->
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+            <x-input-label for="cedula" :value="__('Cedula')" />
+            <x-text-input id="cedula" class="block mt-1 w-full" type="text" name="id" :value="old('id')" required autofocus autocomplete="id" />
+            <x-input-error :messages="$errors->get('id')" class="mt-2" />
+        </div>
+
+        <!-- Nombre -->
+        <div class="mt-4">
+            <x-input-label for="nombre" :value="__('Nombre')" />
+            <x-text-input id="nombre" class="block mt-1 w-full" type="text" name="nombre" :value="old('nombre')" required />
+            <x-input-error :messages="$errors->get('nombre')" class="mt-2" />
         </div>
 
         <!-- Email Address -->
@@ -14,6 +20,12 @@
             <x-input-label for="email" :value="__('Email')" />
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        </div>
+        <!--contacto-->
+        <div class="mt-4">
+            <x-input-label for="contacto" :value="__('Contacto')" />
+            <x-text-input id="contacto" class="block mt-1 w-full" type="text" name="contacto" :value="old('contacto')" />
+            <x-input-error :messages="$errors->get('contacto')" class="mt-2" />
         </div>
 
         <!-- Password -->
