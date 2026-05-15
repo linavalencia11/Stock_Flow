@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('contacto')->nullable();
             $table->uuid('rol_id');
             $table->boolean('activo')->default(true);
-            $table->rememberToken();
+            $table->rememberToken();//nuevo campo para adaptar el sistema a breeze
             $table->timestamps();
 
             $table->foreign('rol_id')
