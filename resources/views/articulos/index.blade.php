@@ -66,14 +66,16 @@
                                                class="inline-flex items-center text-xs bg-yellow-500 hover:bg-yellow-600 text-black px-3 py-1.5 rounded font-bold transition-colors" style="color: #FFD700">
                                                 Editar
                                             </a>
-                                            <form method="POST" action="{{ route('articulos.destroy', $articulo->id) }}"
-                                                  class="inline" onsubmit="return confirm('¿Eliminar este artículo?')">
-                                                @csrf @method('DELETE')
-                                                <button type="submit"
-                                                        class="inline-flex items-center text-xs bg-red-600 hover:bg-red-750 text-white px-3 py-1.5 rounded font-bold transition-colors">
-                                                    Eliminar
-                                                </button>
-                                            </form>
+                                            @if(auth()->user()->rol->nombre === 'Administrador')
+                                                <form method="POST" action="{{ route('articulos.destroy', $articulo->id) }}"
+                                                    class="inline" onsubmit="return confirm('¿Eliminar este artículo?')">
+                                                    @csrf @method('DELETE')
+                                                    <button type="submit"
+                                                            class="inline-flex items-center text-xs bg-red-600 hover:bg-red-750 text-white px-3 py-1.5 rounded font-bold transition-colors">
+                                                        Eliminar
+                                                    </button>
+                                                </form>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

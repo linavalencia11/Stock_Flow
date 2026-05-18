@@ -117,4 +117,16 @@ class PrestamoController extends Controller
         return redirect()->route('prestamos.index')
                          ->with('success', 'Préstamo eliminado exitosamente.');
     }
+
+    public function misPrestamos()
+    {
+
+        $prestamos = Prestamo::with(['articulos', 'custodio'])
+            ->where('solicitante_id', auth()->id())
+            ->latest()
+            ->get();
+
+
+        return view('prestamos.mis-prestamos', compact('prestamos'));
+    }
 }

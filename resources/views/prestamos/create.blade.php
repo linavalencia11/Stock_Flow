@@ -29,21 +29,24 @@
                     <p class="mt-1 text-xs text-orange-500">No hay artículos disponibles en este momento.</p>
                 @endif
             </div>
-
-            <div>
-                <label for="solicitante_id" class="block text-sm font-medium text-white mb-1">Solicitante</label>
-                <select id="solicitante_id" name="solicitante_id" required
-                        class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none
-                               focus:ring-2 focus:ring-indigo-500 @error('solicitante_id') border-red-400 @enderror">
-                    <option value="">Seleccionar solicitante</option>
-                    @foreach ($solicitantes as $usuario)
-                        <option value="{{ $usuario->id }}" {{ old('solicitante_id') == $usuario->id ? 'selected' : '' }}>
-                            {{ $usuario->nombre }} ({{ $usuario->rol->nombre ?? '' }})
-                        </option>
-                    @endforeach
-                </select>
-                @error('solicitante_id') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
-            </div>
+            @if(auth()->user()->rol->nombre !== 'Solicitante')
+                <div>
+                    <label for="solicitante_id" class="block text-sm font-medium text-white mb-1">Solicitante</label>
+                    <select id="solicitante_id" name="solicitante_id" required
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none
+                                focus:ring-2 focus:ring-indigo-500 @error('solicitante_id') border-red-400 @enderror">
+                        <option value="">Seleccionar solicitante</option>
+                        @foreach ($solicitantes as $usuario)
+                            <option value="{{ $usuario->id }}" {{ old('solicitante_id') == $usuario->id ? 'selected' : '' }}>
+                                {{ $usuario->nombre }} ({{ $usuario->rol->nombre ?? '' }})
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('solicitante_id') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+                </div>
+            @else
+                <input type="hidden" name="solicitante_id" value="{{ auth()->id() }}">
+            @endif
 
             <div>
                 <label for="custodio_id" class="block text-sm font-medium text-white mb-1">Custodio</label>

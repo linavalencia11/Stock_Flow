@@ -30,14 +30,16 @@
            class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
             Editar
         </a>
-        <form method="POST" action="{{ route('categorias.destroy', $categoria->id) }}"
-              onsubmit="return confirm('¿Eliminar esta categoría?')">
-            @csrf @method('DELETE')
-            <button type="submit"
-                    class="bg-red-600 hover:bg-red-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
-                Eliminar
-            </button>
-        </form>
+        @if(auth()->user()->rol->nombre === 'Administrador')
+            <form method="POST" action="{{ route('categorias.destroy', $categoria->id) }}"
+                onsubmit="return confirm('¿Eliminar esta categoría?')">
+                @csrf @method('DELETE')
+                <button type="submit"
+                        class="bg-red-600 hover:bg-red-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+                    Eliminar
+                </button>
+            </form>
+        @endif
         <a href="{{ route('categorias.index') }}" class="text-sm text-gray-300 hover:text-white transition-colors px-3 py-2 rounded-lg hover:bg-gray-800">Volver</a>
     </div>
     </div>

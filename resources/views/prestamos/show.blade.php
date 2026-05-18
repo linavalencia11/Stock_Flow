@@ -85,15 +85,17 @@
                 Actualizar estado
             </a>
         @endif
-        @if (!in_array($prestamo->estado, ['entregado']))
-            <form method="POST" action="{{ route('prestamos.destroy', $prestamo->id) }}"
-                  onsubmit="return confirm('¿Eliminar este préstamo?')">
-                @csrf @method('DELETE')
-                <button type="submit"
-                        class="bg-red-600 hover:bg-red-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
-                    Eliminar
-                </button>
-            </form>
+        @if(auth()->user()->rol->nombre === 'Administrador')
+            @if (!in_array($prestamo->estado, ['entregado']))
+                <form method="POST" action="{{ route('prestamos.destroy', $prestamo->id) }}"
+                    onsubmit="return confirm('¿Eliminar este préstamo?')">
+                    @csrf @method('DELETE')
+                    <button type="submit"
+                            class="bg-red-600 hover:bg-red-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+                        Eliminar
+                    </button>
+                </form>
+            @endif
         @endif
         <a href="{{ route('prestamos.index') }}" class="text-sm text-gray-300 hover:text-white transition-colors px-3 py-2 rounded-lg hover:bg-gray-800">Volver</a>
     </div>
