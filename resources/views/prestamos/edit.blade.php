@@ -21,7 +21,7 @@
             @csrf @method('PUT')
 
             <div>
-                <label for="estado" class="block text-sm font-medium text-gray-700 mb-1">Estado</label>
+                <label for="estado" class="block text-sm font-medium text-white mb-1">Estado</label>
                 <select id="estado" name="estado" required
                         class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none
                                focus:ring-2 focus:ring-indigo-500 @error('estado') border-red-400 @enderror">
@@ -35,7 +35,7 @@
             </div>
 
             <div>
-                <label for="custodio_id" class="block text-sm font-medium text-gray-700 mb-1">Custodio</label>
+                <label for="custodio_id" class="block text-sm font-medium text-white mb-1">Custodio</label>
                 <select id="custodio_id" name="custodio_id" required
                         class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none
                                focus:ring-2 focus:ring-indigo-500 @error('custodio_id') border-red-400 @enderror">
@@ -50,7 +50,7 @@
             </div>
 
             <div>
-                <label for="fecha_entrega" class="block text-sm font-medium text-gray-700 mb-1">Fecha de entrega</label>
+                <label for="fecha_entrega" class="block text-sm font-medium text-white mb-1">Fecha de entrega</label>
                 <input type="datetime-local" id="fecha_entrega" name="fecha_entrega"
                        value="{{ old('fecha_entrega', $prestamo->fecha_entrega?->format('Y-m-d\TH:i')) }}"
                        class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none
@@ -59,7 +59,7 @@
             </div>
 
             <div>
-                <label for="fecha_limite" class="block text-sm font-medium text-gray-700 mb-1">Fecha límite</label>
+                <label for="fecha_limite" class="block text-sm font-medium text-white mb-1">Fecha límite</label>
                 <input type="date" id="fecha_limite" name="fecha_limite"
                        value="{{ old('fecha_limite', $prestamo->fecha_limite?->format('Y-m-d')) }}"
                        class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none
@@ -68,7 +68,7 @@
             </div>
 
             <div>
-                <label for="fecha_devolucion" class="block text-sm font-medium text-gray-700 mb-1">Fecha de devolución</label>
+                <label for="fecha_devolucion" class="block text-sm font-medium text-white mb-1">Fecha de devolución</label>
                 <input type="datetime-local" id="fecha_devolucion" name="fecha_devolucion"
                        value="{{ old('fecha_devolucion', $prestamo->fecha_devolucion?->format('Y-m-d\TH:i')) }}"
                        class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none
@@ -77,7 +77,7 @@
             </div>
 
             <div>
-                <label for="estado_devolucion" class="block text-sm font-medium text-gray-700 mb-1">Estado de devolución</label>
+                <label for="estado_devolucion" class="block text-sm font-medium text-white mb-1">Estado de devolución</label>
                 <select id="estado_devolucion" name="estado_devolucion"
                         class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none
                                focus:ring-2 focus:ring-indigo-500 @error('estado_devolucion') border-red-400 @enderror">

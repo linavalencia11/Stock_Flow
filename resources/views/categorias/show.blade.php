@@ -11,16 +11,16 @@
     <div class="bg-gray-800 rounded-lg shadow-xl p-6 border border-gray-700">
         <dl class="space-y-4">
             <div>
-                <dt class="text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</dt>
-                <dd class="mt-1 text-sm text-gray-100">{{ $categoria->nombre }}</dd>
+                <dt class="text-xs font-medium text-white uppercase tracking-wider">Nombre</dt>
+                <dd class="mt-1 text-sm text-white ">{{ $categoria->nombre }}</dd>
             </div>
             <div>
-                <dt class="text-xs font-medium text-gray-500 uppercase tracking-wider">Artículos asociados</dt>
-                <dd class="mt-1 text-sm text-gray-100">{{ $categoria->articulos()->count() }}</dd>
+                <dt class="text-xs font-medium text-white uppercase tracking-wider">Artículos asociados</dt>
+                <dd class="mt-1 text-sm text-white">{{ $categoria->articulos()->count() }}</dd>
             </div>
             <div>
-                <dt class="text-xs font-medium text-gray-500 uppercase tracking-wider">Creada</dt>
-                <dd class="mt-1 text-sm text-gray-100">{{ $categoria->created_at?->format('d/m/Y H:i') ?? '—' }}</dd>
+                <dt class="text-xs font-medium text-white uppercase tracking-wider">Creada</dt>
+                <dd class="mt-1 text-sm text-white">{{ $categoria->created_at?->format('d/m/Y H:i') ?? '—' }}</dd>
             </div>
         </dl>
     </div>

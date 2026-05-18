@@ -36,10 +36,10 @@
                                 @foreach ($rol->usuarios as $usuario)
                                     <li class="text-sm bg-gray-750/40 p-2 rounded-lg border border-gray-700/50 flex justify-between items-center">
                                         <a href="{{ route('usuarios.show', $usuario->id) }}"
-                                           class="text-indigo-400 hover:text-indigo-300 font-semibold transition-colors">
+                                           class="text-indigo-400 hover:text-indigo-300 font-semibold transition-colors" style="color: aliceblue">
                                             {{ $usuario->nombre }}
                                         </a>
-                                        <span class="text-gray-400 text-xs">{{ $usuario->email }}</span>
+                                        <span class="text-white text-xs">{{ $usuario->email }}</span>
                                     </li>
                                 @endforeach
                             </ul>

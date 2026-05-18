@@ -13,7 +13,7 @@
             @csrf
 
             <div>
-                <label for="articulo_id" class="block text-sm font-medium text-gray-700 mb-1">Artículo</label>
+                <label for="articulo_id" class="block text-sm font-medium text-white mb-1">Artículo</label>
                 <select id="articulo_id" name="articulo_id" required
                         class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none
                                focus:ring-2 focus:ring-indigo-500 @error('articulo_id') border-red-400 @enderror">
@@ -31,7 +31,7 @@
             </div>
 
             <div>
-                <label for="solicitante_id" class="block text-sm font-medium text-gray-700 mb-1">Solicitante</label>
+                <label for="solicitante_id" class="block text-sm font-medium text-white mb-1">Solicitante</label>
                 <select id="solicitante_id" name="solicitante_id" required
                         class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none
                                focus:ring-2 focus:ring-indigo-500 @error('solicitante_id') border-red-400 @enderror">
@@ -46,7 +46,7 @@
             </div>
 
             <div>
-                <label for="custodio_id" class="block text-sm font-medium text-gray-700 mb-1">Custodio</label>
+                <label for="custodio_id" class="block text-sm font-medium text-white mb-1">Custodio</label>
                 <select id="custodio_id" name="custodio_id" required
                         class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none
                                focus:ring-2 focus:ring-indigo-500 @error('custodio_id') border-red-400 @enderror">
@@ -61,7 +61,7 @@
             </div>
 
             <div>
-                <label for="fecha_limite" class="block text-sm font-medium text-gray-700 mb-1">Fecha límite de devolución</label>
+                <label for="fecha_limite" class="block text-sm font-medium text-white mb-1">Fecha límite de devolución</label>
                 <input type="date" id="fecha_limite" name="fecha_limite"
                        value="{{ old('fecha_limite') }}" required
                        min="{{ now()->addDay()->format('Y-m-d') }}"

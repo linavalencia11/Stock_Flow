@@ -27,7 +27,7 @@
             </span>
         </div>
 
-        <dl class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <dl class="grid grid-cols-1 sm:grid-cols-2 gap-4" style="color: aliceblue">
             <div>
                 <dt class="text-xs font-medium text-gray-500 uppercase tracking-wider">Artículo</dt>
                 <dd class="mt-1 text-sm text-gray-100">

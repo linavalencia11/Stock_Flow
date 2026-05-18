@@ -15,15 +15,15 @@
         @endif
         <dl class="space-y-4">
             <div>
-                <dt class="text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</dt>
-                <dd class="mt-1 text-sm text-gray-100">{{ $articulo->nombre }}</dd>
+                <dt class="text-xs font-medium text-white uppercase tracking-wider">Nombre</dt>
+                <dd class="mt-1 text-sm text-white">{{ $articulo->nombre }}</dd>
             </div>
             <div>
-                <dt class="text-xs font-medium text-gray-500 uppercase tracking-wider">Categoría</dt>
-                <dd class="mt-1 text-sm text-gray-100">{{ $articulo->categoria->nombre ?? '—' }}</dd>
+                <dt class="text-xs font-medium text-white uppercase tracking-wider">Categoría</dt>
+                <dd class="mt-1 text-sm text-white">{{ $articulo->categoria->nombre ?? '—' }}</dd>
             </div>
             <div>
-                <dt class="text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</dt>
+                <dt class="text-xs font-medium text-white uppercase tracking-wider">Estado</dt>
                 <dd class="mt-1">
                     @php
                         $badgeColor = match($articulo->estado) {
@@ -39,16 +39,16 @@
                 </dd>
             </div>
             <div>
-                <dt class="text-xs font-medium text-gray-500 uppercase tracking-wider">Ubicación</dt>
-                <dd class="mt-1 text-sm text-gray-100">{{ $articulo->ubicacion ?? '—' }}</dd>
+                <dt class="text-xs font-medium text-white uppercase tracking-wider">Ubicación</dt>
+                <dd class="mt-1 text-sm text-white">{{ $articulo->ubicacion ?? '—' }}</dd>
             </div>
             <div>
-                <dt class="text-xs font-medium text-gray-500 uppercase tracking-wider">Activo</dt>
-                <dd class="mt-1 text-sm text-gray-100">{{ $articulo->activo ? 'Sí' : 'No' }}</dd>
+                <dt class="text-xs font-medium text-white uppercase tracking-wider">Activo</dt>
+                <dd class="mt-1 text-sm text-white">{{ $articulo->activo ? 'Sí' : 'No' }}</dd>
             </div>
             <div>
-                <dt class="text-xs font-medium text-gray-500 uppercase tracking-wider">Registrado</dt>
-                <dd class="mt-1 text-sm text-gray-100">{{ $articulo->created_at?->format('d/m/Y H:i') ?? '—' }}</dd>
+                <dt class="text-xs font-medium text-white uppercase tracking-wider">Registrado</dt>
+                <dd class="mt-1 text-sm text-white">{{ $articulo->created_at?->format('d/m/Y H:i') ?? '—' }}</dd>
             </div>
         </dl>
     </div>
