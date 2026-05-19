@@ -4,7 +4,7 @@ use App\Http\Controllers\ArticuloController;
 use App\Http\Controllers\CategoriaController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth', 'role:Administrador|Custodio|Solicitante'])->group(function () {
+Route::middleware(['auth', 'role:Administrador|Custodio'])->group(function () {
     Route::get('/articulos', [ArticuloController::class, 'index'])->name('articulos.index');
     Route::get('/categorias', [CategoriaController::class, 'index'])->name('categorias.index');
 

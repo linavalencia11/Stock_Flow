@@ -25,15 +25,15 @@
                   class="bg-gray-800 rounded-lg border border-gray-700 px-6 py-4">
                 <div class="flex flex-wrap gap-3 items-end">
                     <div class="flex-1 min-w-[180px]">
-                        <label class="block text-xs font-bold text-gray-400 mb-1 uppercase tracking-wider">Buscar</label>
+                        <label class="block text-xs font-bold text-gray-400 mb-1 uppercase tracking-wider" >Buscar</label>
                         <input type="text" name="buscar" value="{{ request('buscar') }}"
                                placeholder="Nombre del artículo..."
-                               class="w-full bg-gray-700 border border-gray-600 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-500">
+                               class="w-full bg-gray-700 border border-gray-600 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-500" style="color: black">
                     </div>
                     <div class="min-w-[150px]">
                         <label class="block text-xs font-bold text-gray-400 mb-1 uppercase tracking-wider">Estado</label>
                         <select name="estado"
-                                class="w-full bg-gray-700 border border-gray-600 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                class="w-full bg-gray-700 border border-gray-600 text-black text-sm rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                             <option value="">Todos</option>
                             <option value="disponible"    {{ request('estado') === 'disponible'    ? 'selected' : '' }}>Disponible</option>
                             <option value="en_prestamo"   {{ request('estado') === 'en_prestamo'   ? 'selected' : '' }}>En préstamo</option>
@@ -43,7 +43,7 @@
                     <div class="min-w-[150px]">
                         <label class="block text-xs font-bold text-gray-400 mb-1 uppercase tracking-wider">Categoría</label>
                         <select name="categoria_id"
-                                class="w-full bg-gray-700 border border-gray-600 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                class="w-full bg-gray-700 border border-gray-600 text-black text-sm rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                             <option value="">Todas</option>
                             @foreach ($categorias as $cat)
                                 <option value="{{ $cat->id }}" {{ request('categoria_id') == $cat->id ? 'selected' : '' }}>
@@ -59,7 +59,7 @@
                         </button>
                         @if (request()->hasAny(['buscar', 'estado', 'categoria_id']))
                             <a href="{{ route('articulos.index') }}"
-                               class="bg-gray-600 hover:bg-gray-500 text-white text-sm font-bold px-4 py-2 rounded-lg transition-colors">
+                               class="bg-gray-600 hover:bg-gray-500 text-black text-sm font-bold px-4 py-2 rounded-lg transition-colors">
                                 Limpiar
                             </a>
                         @endif

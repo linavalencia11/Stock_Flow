@@ -28,7 +28,7 @@
                         <label class="block text-xs font-bold text-gray-400 mb-1 uppercase tracking-wider">Buscar</label>
                         <input type="text" name="buscar" value="{{ request('buscar') }}"
                                placeholder="Nombre del rol..."
-                               class="w-full bg-gray-700 border border-gray-600 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-500">
+                               class="w-full bg-gray-700 border border-gray-600 text-black text-sm rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-500">
                     </div>
                     <div class="flex gap-2">
                         <button type="submit"
