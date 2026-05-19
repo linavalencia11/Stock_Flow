@@ -5,14 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Str;
+
 class CategoriaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categorias = Categoria::all();
+        $query = Categoria::withCount('articulos');
+
+        if ($request->filled('buscar')) {
+            $query->where('nombre', 'like', '%' . $request->buscar . '%');
+        }
+
+        $categorias = $query->paginate(10)->withQueryString();
         return view('categorias.index', compact('categorias'));
     }
 
@@ -32,8 +40,9 @@ class CategoriaController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255|unique:categorias,nombre',
         ]);
-
-        Categoria::create($request->only('nombre'));
+        $categoria = new Categoria($request->only('nombre'));
+        $categoria->id = (string) Str::uuid();
+        $categoria->save();
 
         return redirect()->route('categorias.index')
                          ->with('success', 'Categoría creada exitosamente.');

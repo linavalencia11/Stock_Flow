@@ -5,11 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\Rol;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Str;
+
 class RolController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $roles = Rol::withCount('usuarios')->get();
+        $query = Rol::withCount('usuarios');
+
+        if ($request->filled('buscar')) {
+            $query->where('nombre', 'like', '%' . $request->buscar . '%');
+        }
+
+        $roles = $query->paginate(10)->withQueryString();
         return view('roles.index', compact('roles'));
     }
 
@@ -24,7 +32,9 @@ class RolController extends Controller
             'nombre' => 'required|string|max:255|unique:roles,nombre',
         ]);
 
-        Rol::create($request->only('nombre'));
+        $rol = new Rol($request->only('nombre'));
+        $rol->id = (string) Str::uuid();
+        $rol->save();
 
         return redirect()->route('roles.index')
                          ->with('success', 'Rol creado exitosamente.');

@@ -8,10 +8,26 @@ use Illuminate\Http\Request;
 
 class UsuarioController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $usuarios = Usuario::with('rol')->get();
-        return view('usuarios.index', compact('usuarios'));
+        $query = Usuario::with('rol');
+
+        if ($request->filled('buscar')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('nombre', 'like', '%' . $request->buscar . '%')
+                  ->orWhere('email', 'like', '%' . $request->buscar . '%');
+            });
+        }
+        if ($request->filled('rol_id')) {
+            $query->where('rol_id', $request->rol_id);
+        }
+        if ($request->filled('activo')) {
+            $query->where('activo', $request->activo);
+        }
+
+        $usuarios = $query->paginate(10)->withQueryString();
+        $roles    = Rol::all();
+        return view('usuarios.index', compact('usuarios', 'roles'));
     }
 
     public function create()

@@ -8,11 +8,22 @@ use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Str;
+
 class PrestamoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $prestamos = Prestamo::with(['articulos', 'solicitante', 'custodio'])->latest()->get();
+        $query = Prestamo::with(['articulos', 'solicitante', 'custodio'])->latest();
+
+        if ($request->filled('estado')) {
+            $query->where('estado', $request->estado);
+        }
+        if ($request->filled('buscar')) {
+            $query->whereHas('solicitante', fn ($q) => $q->where('nombre', 'like', '%' . $request->buscar . '%'));
+        }
+
+        $prestamos = $query->paginate(10)->withQueryString();
         return view('prestamos.index', compact('prestamos'));
     }
 
@@ -40,15 +51,11 @@ class PrestamoController extends Controller
         if ($articulo->estado !== 'disponible') {
             return back()->withErrors(['articulo_id' => 'El artículo ya no está disponible.'])->withInput();
         }
+        $prestamo = new Prestamo($request->only('articulo_id', 'solicitante_id', 'custodio_id', 'fecha_limite'));
+        $prestamo->id = (string) Str::uuid();
+        $prestamo->estado = 'pendiente';
 
-        Prestamo::create([
-            'articulo_id'     => $request->articulo_id,
-            'solicitante_id'  => $request->solicitante_id,
-            'custodio_id'     => $request->custodio_id,
-            'estado'          => 'pendiente',
-            'fecha_solicitud' => now(),
-            'fecha_limite'    => $request->fecha_limite,
-        ]);
+        $prestamo->save();
 
         return redirect()->route('prestamos.index')
                          ->with('success', 'Solicitud de préstamo creada exitosamente.');
@@ -118,5 +125,17 @@ class PrestamoController extends Controller
 
         return redirect()->route('prestamos.index')
                          ->with('success', 'Préstamo eliminado exitosamente.');
+    }
+
+    public function misPrestamos()
+    {
+
+        $prestamos = Prestamo::with(['articulos', 'custodio'])
+            ->where('solicitante_id', auth()->id())
+            ->latest()
+            ->get();
+
+
+        return view('prestamos.mis-prestamos', compact('prestamos'));
     }
 }

@@ -12,10 +12,12 @@ return new class extends Migration
             $table->string('id')->primary();
             $table->string('nombre');
             $table->string('email')->unique();
+            $table->string('email_verified_at')->nullable();//nuevo campo para adaptar el sistema a breeze
             $table->string('password');
             $table->string('contacto')->nullable();
             $table->uuid('rol_id');
             $table->boolean('activo')->default(true);
+            $table->rememberToken();//nuevo campo para adaptar el sistema a breeze
             $table->timestamps();
 
             $table->foreign('rol_id')

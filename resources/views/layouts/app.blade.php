@@ -1,95 +1,41 @@
+
 <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StockFlow — @yield('title', 'Inicio')</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 font-sans antialiased">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<div class="flex h-screen overflow-hidden">
+        <title>{{ config('app.name', 'Laravel') }}</title>
 
-    {{-- Sidebar --}}
-    <aside class="w-64 bg-gray-900 text-white flex flex-col flex-shrink-0">
-        <div class="px-6 py-5 border-b border-gray-700">
-            <span class="text-xl font-bold tracking-wide">StockFlow</span>
-            <p class="text-xs text-gray-400 mt-0.5">Gestión de inventario</p>
-        </div>
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-        <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-            @php
-                $nav = [
-                    ['route' => 'articulos.index',  'label' => 'Artículos',   'icon' => 'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10'],
-                    ['route' => 'categorias.index', 'label' => 'Categorías',  'icon' => 'M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z'],
-                    ['route' => 'prestamos.index',  'label' => 'Préstamos',   'icon' => 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2'],
-                    ['route' => 'usuarios.index',   'label' => 'Usuarios',    'icon' => 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z'],
-                    ['route' => 'roles.index',      'label' => 'Roles',       'icon' => 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z'],
-                ];
-            @endphp
+        <!-- Scripts -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    </head>
+    <body class="font-sans antialiased">
+        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+            @include('layouts.navigation')
 
-            @foreach ($nav as $item)
-                @php $active = request()->routeIs(Str::before($item['route'], '.') . '.*'); @endphp
-                <a href="{{ route($item['route']) }}"
-                   class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors
-                          {{ $active ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
-                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $item['icon'] }}"/>
-                    </svg>
-                    {{ $item['label'] }}
-                </a>
-            @endforeach
-        </nav>
+            <div class="flex min-h-[calc(100vh-4rem)]">
+                @include('layouts.sidebar')
 
-        <div class="px-4 py-4 border-t border-gray-700">
-            <p class="text-xs text-gray-400 mb-1 truncate">{{ Auth::user()->nombre }}</p>
-            <p class="text-xs text-gray-500 mb-3 truncate">{{ Auth::user()->email }}</p>
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit"
-                        class="w-full text-left text-xs text-gray-400 hover:text-white transition-colors flex items-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                    </svg>
-                    Cerrar sesión
-                </button>
-            </form>
-        </div>
-    </aside>
+                <div class="flex-1">
+                    @isset($header)
+                        <header class="bg-white dark:bg-gray-800 shadow">
+                            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                                {{ $header }}
+                            </div>
+                        </header>
+                    @endisset
 
-    {{-- Contenido principal --}}
-    <div class="flex-1 flex flex-col overflow-hidden">
-        <header class="bg-white shadow-sm px-8 py-4 flex items-center justify-between flex-shrink-0">
-            <h1 class="text-lg font-semibold text-gray-800">@yield('title', 'Inicio')</h1>
-            <span class="text-sm text-gray-500">{{ Auth::user()->rol->nombre ?? '' }}</span>
-        </header>
-
-        <main class="flex-1 overflow-y-auto p-8">
-
-            {{-- Mensajes flash --}}
-            @if (session('success'))
-                <div class="mb-6 flex items-center gap-3 bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg text-sm">
-                    <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                    </svg>
-                    {{ session('success') }}
+                    <main class="p-4 sm:p-6 lg:p-8">
+                        {{ $slot }}
+                    </main>
                 </div>
-            @endif
-
-            @if (session('error'))
-                <div class="mb-6 flex items-center gap-3 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg text-sm">
-                    <svg class="w-5 h-5 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                    {{ session('error') }}
-                </div>
-            @endif
-
-            @yield('content')
-        </main>
-    </div>
-</div>
-
-</body>
+            </div>
+        </div>
+    </body>
 </html>

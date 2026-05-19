@@ -1,10 +1,14 @@
-@extends('layouts.app')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-bold text-xl text-white leading-tight">
+            Nuevo rol
+        </h2>
+    </x-slot>
 
-@section('title', 'Nuevo rol')
-
-@section('content')
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 <div class="max-w-lg">
-    <div class="bg-white rounded-xl shadow-sm p-6">
+    <div class="bg-gray-800 rounded-lg shadow-xl p-6 border border-gray-700">
         <form method="POST" action="{{ route('roles.store') }}" class="space-y-5">
             @csrf
 
@@ -21,9 +25,11 @@
                         class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-5 py-2 rounded-lg transition-colors">
                     Guardar
                 </button>
-                <a href="{{ route('roles.index') }}" class="text-sm text-gray-500 hover:text-gray-700">Cancelar</a>
+                <a href="{{ route('roles.index') }}" class="text-sm text-gray-300 hover:text-white transition-colors px-3 py-2 rounded-lg hover:bg-gray-800">Cancelar</a>
             </div>
         </form>
     </div>
+        </div>
+    </div>
 </div>
-@endsection
+</x-app-layout>
