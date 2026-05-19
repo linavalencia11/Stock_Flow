@@ -14,7 +14,7 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        $categorias = Categoria::all();
+        $categorias = Categoria::latest()->paginate(10);
         return view('categorias.index', compact('categorias'));
     }
 

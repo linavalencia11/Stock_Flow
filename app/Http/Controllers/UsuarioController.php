@@ -10,7 +10,7 @@ class UsuarioController extends Controller
 {
     public function index()
     {
-        $usuarios = Usuario::with('rol')->get();
+        $usuarios = Usuario::with('rol')->latest()->paginate(10);
         return view('usuarios.index', compact('usuarios'));
     }
 

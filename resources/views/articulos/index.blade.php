@@ -27,6 +27,32 @@
                         <p class="text-base font-bold">No hay artículos registrados en el sistema.</p>
                     </div>
                 @else
+                    <form method="GET" action="{{ route('articulos.index') }}" class="mb-6 flex items-center gap-4 bg-gray-800 p-4 rounded-lg border border-gray-700">
+
+                        <div class="flex flex-col gap-1">
+                            <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider">Filtrar por Categoría</label>
+                            <select name="categoria_id" class="w-64 h-9 bg-gray-700 border border-gray-600 rounded-lg px-3 text-sm text-black focus:outline-none focus:border-indigo-500">
+                                <option value="">Todas las categorías</option>
+                                @foreach($categorias as $categoria)
+                                    <option value="{{ $categoria->id }}" {{ request('categoria_id') == $categoria->id ? 'selected' : '' }}>
+                                        {{ $categoria->nombre }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="flex gap-2 pt-5">
+                            <button type="submit" class="h-9 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs px-4 rounded-lg transition-colors whitespace-nowrap">
+                                Filtrar
+                            </button>
+
+                            @if(request()->filled('categoria_id'))
+                                <a href="{{ route('articulos.index') }}" class="h-9 bg-gray-600 hover:bg-gray-500 text-white font-semibold text-xs px-4 rounded-lg transition-colors flex items-center whitespace-nowrap">
+                                    Limpiar
+                                </a>
+                            @endif
+                        </div>
+                    </form>
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm text-left">
                             <thead class="bg-gray-700 text-white text-xs uppercase tracking-wider border-b border-gray-600">
@@ -81,6 +107,9 @@
                                 @endforeach
                             </tbody>
                         </table>
+                         <div class = "mt-4 px-4 py-3 bg-gray-800 rounded-lg border border-gray-700 text-white">
+                                    {{ $articulos->links() }}
+                        </div>
                     </div>
                 @endif
             </div>

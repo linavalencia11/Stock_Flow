@@ -11,7 +11,7 @@ class RolController extends Controller
 {
     public function index()
     {
-        $roles = Rol::withCount('usuarios')->get();
+        $roles = Rol::withCount('usuarios')->latest()->paginate(10);
         return view('roles.index', compact('roles'));
     }
 

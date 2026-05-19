@@ -92,6 +92,9 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class = "mt-4 px-4 py-3 bg-gray-800 rounded-lg border border-gray-700 text-white">
+                                    {{ $prestamos->links() }}
+                        </div>
                     </div>
                 @endif
             </div>

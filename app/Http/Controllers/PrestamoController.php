@@ -14,7 +14,7 @@ class PrestamoController extends Controller
 {
     public function index()
     {
-        $prestamos = Prestamo::with(['articulos', 'solicitante', 'custodio'])->latest()->get();
+        $prestamos = Prestamo::with(['articulos', 'solicitante', 'custodio'])->latest()->paginate(10);
         return view('prestamos.index', compact('prestamos'));
     }
 
@@ -124,7 +124,7 @@ class PrestamoController extends Controller
         $prestamos = Prestamo::with(['articulos', 'custodio'])
             ->where('solicitante_id', auth()->id())
             ->latest()
-            ->get();
+            ->paginate(10);
 
 
         return view('prestamos.mis-prestamos', compact('prestamos'));
