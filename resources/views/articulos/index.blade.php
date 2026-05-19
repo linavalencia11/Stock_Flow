@@ -10,7 +10,7 @@
 
             <div class="flex items-center justify-between px-6 py-4 bg-gray-800 rounded-lg border border-gray-700 shadow-lg">
                 <p class="text-sm font-bold text-white">
-                    {{ $articulos->count() }} {{ $articulos->count() === 1 ? 'artículo registrado' : 'artículos registrados' }}
+                    {{ $articulos->total() }} {{ $articulos->total() === 1 ? 'artículo registrado' : 'artículos registrados' }}
                 </p>
                 <a href="{{ route('articulos.create') }}"
                    class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-4 py-2 rounded-lg transition-colors">
@@ -20,6 +20,52 @@
                     Nuevo artículo
                 </a>
             </div>
+
+            <form method="GET" action="{{ route('articulos.index') }}"
+                  class="bg-gray-800 rounded-lg border border-gray-700 px-6 py-4">
+                <div class="flex flex-wrap gap-3 items-end">
+                    <div class="flex-1 min-w-[180px]">
+                        <label class="block text-xs font-bold text-gray-400 mb-1 uppercase tracking-wider">Buscar</label>
+                        <input type="text" name="buscar" value="{{ request('buscar') }}"
+                               placeholder="Nombre del artículo..."
+                               class="w-full bg-gray-700 border border-gray-600 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-500">
+                    </div>
+                    <div class="min-w-[150px]">
+                        <label class="block text-xs font-bold text-gray-400 mb-1 uppercase tracking-wider">Estado</label>
+                        <select name="estado"
+                                class="w-full bg-gray-700 border border-gray-600 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="">Todos</option>
+                            <option value="disponible"    {{ request('estado') === 'disponible'    ? 'selected' : '' }}>Disponible</option>
+                            <option value="en_prestamo"   {{ request('estado') === 'en_prestamo'   ? 'selected' : '' }}>En préstamo</option>
+                            <option value="mantenimiento" {{ request('estado') === 'mantenimiento' ? 'selected' : '' }}>Mantenimiento</option>
+                        </select>
+                    </div>
+                    <div class="min-w-[150px]">
+                        <label class="block text-xs font-bold text-gray-400 mb-1 uppercase tracking-wider">Categoría</label>
+                        <select name="categoria_id"
+                                class="w-full bg-gray-700 border border-gray-600 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="">Todas</option>
+                            @foreach ($categorias as $cat)
+                                <option value="{{ $cat->id }}" {{ request('categoria_id') == $cat->id ? 'selected' : '' }}>
+                                    {{ $cat->nombre }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="flex gap-2">
+                        <button type="submit"
+                                class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-4 py-2 rounded-lg transition-colors">
+                            Filtrar
+                        </button>
+                        @if (request()->hasAny(['buscar', 'estado', 'categoria_id']))
+                            <a href="{{ route('articulos.index') }}"
+                               class="bg-gray-600 hover:bg-gray-500 text-white text-sm font-bold px-4 py-2 rounded-lg transition-colors">
+                                Limpiar
+                            </a>
+                        @endif
+                    </div>
+                </div>
+            </form>
 
             <div class="bg-gray-800 rounded-lg shadow-xl border border-gray-700 overflow-hidden">
                 @if ($articulos->isEmpty())
@@ -71,7 +117,7 @@
                                                     class="inline" onsubmit="return confirm('¿Eliminar este artículo?')">
                                                     @csrf @method('DELETE')
                                                     <button type="submit"
-                                                            class="inline-flex items-center text-xs bg-red-600 hover:bg-red-750 text-white px-3 py-1.5 rounded font-bold transition-colors">
+                                                            class="inline-flex items-center text-xs bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded font-bold transition-colors">
                                                         Eliminar
                                                     </button>
                                                 </form>
@@ -82,6 +128,11 @@
                             </tbody>
                         </table>
                     </div>
+                    @if ($articulos->hasPages())
+                        <div class="px-6 py-4 border-t border-gray-700">
+                            {{ $articulos->links() }}
+                        </div>
+                    @endif
                 @endif
             </div>
 

@@ -12,9 +12,18 @@ use Illuminate\Support\Str;
 
 class PrestamoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $prestamos = Prestamo::with(['articulos', 'solicitante', 'custodio'])->latest()->get();
+        $query = Prestamo::with(['articulos', 'solicitante', 'custodio'])->latest();
+
+        if ($request->filled('estado')) {
+            $query->where('estado', $request->estado);
+        }
+        if ($request->filled('buscar')) {
+            $query->whereHas('solicitante', fn ($q) => $q->where('nombre', 'like', '%' . $request->buscar . '%'));
+        }
+
+        $prestamos = $query->paginate(10)->withQueryString();
         return view('prestamos.index', compact('prestamos'));
     }
 

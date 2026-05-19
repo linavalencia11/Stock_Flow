@@ -12,10 +12,23 @@ class ArticuloController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $articulos = Articulo::with('categoria')->get();
-        return view('articulos.index', compact('articulos'));
+        $query = Articulo::with('categoria');
+
+        if ($request->filled('buscar')) {
+            $query->where('nombre', 'like', '%' . $request->buscar . '%');
+        }
+        if ($request->filled('estado')) {
+            $query->where('estado', $request->estado);
+        }
+        if ($request->filled('categoria_id')) {
+            $query->where('categoria_id', $request->categoria_id);
+        }
+
+        $articulos  = $query->paginate(10)->withQueryString();
+        $categorias = Categoria::all();
+        return view('articulos.index', compact('articulos', 'categorias'));
     }
 
     /**

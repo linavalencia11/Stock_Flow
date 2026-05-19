@@ -9,9 +9,15 @@ use Illuminate\Support\Str;
 
 class RolController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $roles = Rol::withCount('usuarios')->get();
+        $query = Rol::withCount('usuarios');
+
+        if ($request->filled('buscar')) {
+            $query->where('nombre', 'like', '%' . $request->buscar . '%');
+        }
+
+        $roles = $query->paginate(10)->withQueryString();
         return view('roles.index', compact('roles'));
     }
 

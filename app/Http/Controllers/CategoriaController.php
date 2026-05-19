@@ -12,9 +12,15 @@ class CategoriaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categorias = Categoria::all();
+        $query = Categoria::withCount('articulos');
+
+        if ($request->filled('buscar')) {
+            $query->where('nombre', 'like', '%' . $request->buscar . '%');
+        }
+
+        $categorias = $query->paginate(10)->withQueryString();
         return view('categorias.index', compact('categorias'));
     }
 

@@ -10,7 +10,7 @@
 
             <div class="flex items-center justify-between px-6 py-4 bg-gray-800 rounded-lg border border-gray-700 shadow-lg">
                 <p class="text-sm font-bold text-white">
-                    {{ $categorias->count() }} {{ $categorias->count() === 1 ? 'categoría registrada' : 'categorías registradas' }}
+                    {{ $categorias->total() }} {{ $categorias->total() === 1 ? 'categoría registrada' : 'categorías registradas' }}
                 </p>
                 <a href="{{ route('categorias.create') }}"
                    class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-4 py-2 rounded-lg transition-colors">
@@ -20,6 +20,30 @@
                     Nueva categoría
                 </a>
             </div>
+
+            <form method="GET" action="{{ route('categorias.index') }}"
+                  class="bg-gray-800 rounded-lg border border-gray-700 px-6 py-4">
+                <div class="flex flex-wrap gap-3 items-end">
+                    <div class="flex-1 min-w-[200px]">
+                        <label class="block text-xs font-bold text-gray-400 mb-1 uppercase tracking-wider">Buscar</label>
+                        <input type="text" name="buscar" value="{{ request('buscar') }}"
+                               placeholder="Nombre de la categoría..."
+                               class="w-full bg-gray-700 border border-gray-600 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-500">
+                    </div>
+                    <div class="flex gap-2">
+                        <button type="submit"
+                                class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-4 py-2 rounded-lg transition-colors">
+                            Filtrar
+                        </button>
+                        @if (request()->filled('buscar'))
+                            <a href="{{ route('categorias.index') }}"
+                               class="bg-gray-600 hover:bg-gray-500 text-white text-sm font-bold px-4 py-2 rounded-lg transition-colors">
+                                Limpiar
+                            </a>
+                        @endif
+                    </div>
+                </div>
+            </form>
 
             <div class="bg-gray-800 rounded-lg shadow-xl border border-gray-700 overflow-hidden">
                 @if ($categorias->isEmpty())
@@ -40,7 +64,7 @@
                                 @foreach ($categorias as $categoria)
                                     <tr class="hover:bg-gray-700 transition-colors">
                                         <td class="px-6 py-5 font-bold text-white text-base">{{ $categoria->nombre }}</td>
-                                        <td class="px-6 py-5 text-gray-400">{{ $categoria->articulos()->count() }}</td>
+                                        <td class="px-6 py-5 text-gray-400">{{ $categoria->articulos_count }}</td>
                                         <td class="px-6 py-5 text-right whitespace-nowrap space-x-2">
                                             <a href="{{ route('categorias.show', $categoria->id) }}"
                                                class="inline-flex items-center text-xs bg-gray-600 hover:bg-gray-500 text-white px-3 py-1.5 rounded font-bold transition-colors">
@@ -55,7 +79,7 @@
                                                     class="inline" onsubmit="return confirm('¿Eliminar esta categoría?')">
                                                     @csrf @method('DELETE')
                                                     <button type="submit"
-                                                            class="inline-flex items-center text-xs bg-red-600 hover:bg-red-750 text-white px-3 py-1.5 rounded font-bold transition-colors">
+                                                            class="inline-flex items-center text-xs bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded font-bold transition-colors">
                                                         Eliminar
                                                     </button>
                                                 </form>
@@ -66,6 +90,11 @@
                             </tbody>
                         </table>
                     </div>
+                    @if ($categorias->hasPages())
+                        <div class="px-6 py-4 border-t border-gray-700">
+                            {{ $categorias->links() }}
+                        </div>
+                    @endif
                 @endif
             </div>
 
