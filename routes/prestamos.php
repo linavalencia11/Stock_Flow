@@ -7,6 +7,10 @@ Route::middleware(['auth', 'permission:reportes.ver_mis_prestamos'])->group(func
     Route::get('/prestamos/mis-prestamos', [PrestamoController::class, 'misPrestamos'])->name('prestamos.usuario');
 });
 
+Route::middleware(['auth', 'permission:prestamos.cancelar_solicitud_propia'])->group(function () {
+    Route::patch('/prestamos/{id}/cancelar', [PrestamoController::class, 'cancelar'])->name('prestamos.cancelar');
+});
+
 Route::middleware(['auth', 'permission:prestamos.solicitar'])->group(function () {
     Route::get('/prestamos/create', [PrestamoController::class, 'create'])->name('prestamos.create');
     Route::post('/prestamos', [PrestamoController::class, 'store'])->name('prestamos.store');

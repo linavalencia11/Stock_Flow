@@ -18,6 +18,12 @@
                     ['route' => 'prestamos.usuario', 'label' => 'Mis Préstamos', 'icon' => 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2', 'permiso' => 'reportes.ver_mis_prestamos'],
                     ['route' => 'permisos.index',    'label' => 'Permisos',      'icon' => 'M12 15v2m6-2h-6m6 0h-6m6 0v-2m0-4H9m6 4H9m6 0v-4H9m6 4H9', 'permiso' => 'permisos.ver_lista'],
                 ];
+
+                $reportes = [
+                    ['route' => 'reportes.mis-prestamos',         'label' => 'Mis Préstamos',   'icon' => 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2', 'permiso' => 'reportes.ver_mis_prestamos'],
+                    ['route' => 'reportes.general',               'label' => 'Reporte General', 'icon' => 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', 'permiso' => 'reportes.ver_reporte_general'],
+                    ['route' => 'reportes.articulos-solicitados', 'label' => 'Más Solicitados', 'icon' => 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6', 'permiso' => 'reportes.ver_articulos_mas_solicitados'],
+                ];
             @endphp
 
             @foreach ($nav as $item)
@@ -27,11 +33,35 @@
                        class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors
                               {{ $active ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $item['icon'] }}"/>
-                    </svg>
-                    {{ $item['label'] }}
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $item['icon'] }}"/>
+                        </svg>
+                        {{ $item['label'] }}
                     </a>
                 @endcan
             @endforeach
+
+            @php
+                $tieneReportes = Auth::user()->can('permiso', 'reportes.ver_mis_prestamos')
+                              || Auth::user()->can('permiso', 'reportes.ver_reporte_general')
+                              || Auth::user()->can('permiso', 'reportes.ver_articulos_mas_solicitados');
+            @endphp
+            @if ($tieneReportes)
+                <div class="pt-3 pb-1">
+                    <p class="px-3 text-xs font-bold text-gray-500 uppercase tracking-widest">Reportes</p>
+                </div>
+                @foreach ($reportes as $item)
+                    @can('permiso', $item['permiso'])
+                        @php $active = request()->routeIs($item['route']); @endphp
+                        <a href="{{ route($item['route']) }}"
+                           class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors
+                                  {{ $active ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
+                            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $item['icon'] }}"/>
+                            </svg>
+                            {{ $item['label'] }}
+                        </a>
+                    @endcan
+                @endforeach
+            @endif
         </nav>
     </aside>
