@@ -79,13 +79,15 @@
     </div>
 
     <div class="flex items-center gap-3">
-        @if (!in_array($prestamo->estado, ['devuelto', 'rechazado', 'cancelado']))
-            <a href="{{ route('prestamos.edit', $prestamo->id) }}"
-               class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
-                Actualizar estado
-            </a>
-        @endif
-        @if(auth()->user()->rol->nombre === 'Administrador')
+        @can('permiso', 'prestamos.aprobar_rechazar')
+            @if (!in_array($prestamo->estado, ['devuelto', 'rechazado', 'cancelado']))
+                <a href="{{ route('prestamos.edit', $prestamo->id) }}"
+                   class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+                    Actualizar estado
+                </a>
+            @endif
+        @endcan
+        @can('permiso', 'reportes.ver_reporte_general')
             @if (!in_array($prestamo->estado, ['entregado']))
                 <form method="POST" action="{{ route('prestamos.destroy', $prestamo->id) }}"
                     onsubmit="return confirm('¿Eliminar este préstamo?')">
@@ -96,7 +98,7 @@
                     </button>
                 </form>
             @endif
-        @endif
+        @endcan
         <a href="{{ route('prestamos.index') }}" class="text-sm text-gray-300 hover:text-white transition-colors px-3 py-2 rounded-lg hover:bg-gray-800">Volver</a>
     </div>
     </div>

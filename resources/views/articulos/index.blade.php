@@ -12,13 +12,15 @@
                 <p class="text-sm font-bold text-white">
                     {{ $articulos->total() }} {{ $articulos->total() === 1 ? 'artículo registrado' : 'artículos registrados' }}
                 </p>
-                <a href="{{ route('articulos.create') }}"
-                   class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-4 py-2 rounded-lg transition-colors">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                    </svg>
-                    Nuevo artículo
-                </a>
+                @can('permiso', 'stock.agregar_articulo')
+                    <a href="{{ route('articulos.create') }}"
+                       class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-4 py-2 rounded-lg transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        Nuevo artículo
+                    </a>
+                @endcan
             </div>
 
             <form method="GET" action="{{ route('articulos.index') }}"
@@ -108,11 +110,18 @@
                                                class="inline-flex items-center text-xs bg-gray-600 hover:bg-gray-500 text-white px-3 py-1.5 rounded font-bold transition-colors">
                                                 Ver
                                             </a>
-                                            <a href="{{ route('articulos.edit', $articulo->id) }}"
-                                               class="inline-flex items-center text-xs bg-yellow-500 hover:bg-yellow-600 text-black px-3 py-1.5 rounded font-bold transition-colors" style="color: #FFD700">
-                                                Editar
-                                            </a>
-                                            @if(auth()->user()->rol->nombre === 'Administrador')
+                                            @can('permiso', 'stock.editar_articulo')
+                                                <a href="{{ route('articulos.edit', $articulo->id) }}"
+                                                   class="inline-flex items-center text-xs bg-yellow-500 hover:bg-yellow-600 text-black px-3 py-1.5 rounded font-bold transition-colors" style="color: #FFD700">
+                                                    Editar
+                                                </a>
+                                            @elsecan('permiso', 'stock.cambiar_estado')
+                                                <a href="{{ route('articulos.edit', $articulo->id) }}"
+                                                   class="inline-flex items-center text-xs bg-yellow-500 hover:bg-yellow-600 text-black px-3 py-1.5 rounded font-bold transition-colors" style="color: #FFD700">
+                                                    Editar estado
+                                                </a>
+                                            @endcan
+                                            @can('permiso', 'stock.dar_baja_articulo')
                                                 <form method="POST" action="{{ route('articulos.destroy', $articulo->id) }}"
                                                     class="inline" onsubmit="return confirm('¿Eliminar este artículo?')">
                                                     @csrf @method('DELETE')
@@ -121,7 +130,7 @@
                                                         Eliminar
                                                     </button>
                                                 </form>
-                                            @endif
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach

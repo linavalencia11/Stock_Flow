@@ -30,7 +30,7 @@
            class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
             Editar
         </a>
-        @if(auth()->user()->rol->nombre === 'Administrador')
+        @can('permiso', 'stock.gestionar_categorias')
             <form method="POST" action="{{ route('categorias.destroy', $categoria->id) }}"
                 onsubmit="return confirm('¿Eliminar esta categoría?')">
                 @csrf @method('DELETE')
@@ -39,7 +39,7 @@
                     Eliminar
                 </button>
             </form>
-        @endif
+        @endcan
         <a href="{{ route('categorias.index') }}" class="text-sm text-gray-300 hover:text-white transition-colors px-3 py-2 rounded-lg hover:bg-gray-800">Volver</a>
     </div>
     </div>

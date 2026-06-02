@@ -54,11 +54,18 @@
     </div>
 
     <div class="flex items-center gap-3">
-        <a href="{{ route('articulos.edit', $articulo->id) }}"
-           class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
-            Editar
-        </a>
-        @if(auth()->user()->rol->nombre === 'Administrador')
+        @can('permiso', 'stock.editar_articulo')
+            <a href="{{ route('articulos.edit', $articulo->id) }}"
+               class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+                Editar
+            </a>
+        @elsecan('permiso', 'stock.cambiar_estado')
+            <a href="{{ route('articulos.edit', $articulo->id) }}"
+               class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+                Editar estado
+            </a>
+        @endcan
+        @can('permiso', 'stock.dar_baja_articulo')
             <form method="POST" action="{{ route('articulos.destroy', $articulo->id) }}"
                 onsubmit="return confirm('¿Eliminar este artículo?')">
                 @csrf @method('DELETE')
@@ -67,7 +74,7 @@
                     Eliminar
                 </button>
             </form>
-        @endif
+        @endcan
         <a href="{{ route('articulos.index') }}" class="text-sm text-gray-300 hover:text-white transition-colors px-3 py-2 rounded-lg hover:bg-gray-800">Volver</a>
     </div>
     </div>

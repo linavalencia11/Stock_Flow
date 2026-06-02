@@ -44,4 +44,20 @@ class Usuario extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Prestamo::class, 'solicitante_id');
     }
+
+    /**
+     * Comprueba si el rol del usuario incluye el permiso indicado.
+     *
+     * @param  string  $permisoNombre  Nombre del permiso (ej: 'prestamos.aprobar')
+     */
+    public function tienePermiso(string $permisoNombre): bool
+    {
+        if ($this->rol_id === null) {
+            return false;
+        }
+
+        return $this->rol()
+            ->whereHas('permisos', fn ($query) => $query->where('permisos.nombre', $permisoNombre))
+            ->exists();
+    }
 }

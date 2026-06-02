@@ -57,7 +57,11 @@ class PrestamoController extends Controller
 
         $prestamo->save();
 
-        return redirect()->route('prestamos.index')
+        $ruta = auth()->user()->tienePermiso('prestamos.ver_todos_activos')
+            ? 'prestamos.index'
+            : 'prestamos.usuario';
+
+        return redirect()->route($ruta)
                          ->with('success', 'Solicitud de préstamo creada exitosamente.');
     }
 

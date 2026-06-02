@@ -29,7 +29,7 @@
                     <p class="mt-1 text-xs text-orange-500">No hay artículos disponibles en este momento.</p>
                 @endif
             </div>
-            @if(auth()->user()->rol->nombre !== 'Solicitante')
+            @can('permiso', 'prestamos.ver_todos_activos')
                 <div>
                     <label for="solicitante_id" class="block text-sm font-medium text-white mb-1">Solicitante</label>
                     <select id="solicitante_id" name="solicitante_id" required
@@ -46,7 +46,7 @@
                 </div>
             @else
                 <input type="hidden" name="solicitante_id" value="{{ auth()->id() }}">
-            @endif
+            @endcan
 
             <div>
                 <label for="custodio_id" class="block text-sm font-medium text-white mb-1">Custodio</label>

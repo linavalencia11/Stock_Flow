@@ -10,12 +10,19 @@ class RolesSeeder extends Seeder
 {
     public function run(): void
     {
-        $roles = [
-            ['id' => Str::uuid(), 'nombre' => 'Administrador'],
-            ['id' => Str::uuid(), 'nombre' => 'Custodio'],
-            ['id' => Str::uuid(), 'nombre' => 'Solicitante'],
-        ];
+        $roles = ['Administrador', 'Custodio', 'Solicitante'];
 
-        DB::table('roles')->insert($roles);
+        foreach ($roles as $nombre) {
+            $existe = DB::table('roles')->where('nombre', $nombre)->exists();
+
+            if (! $existe) {
+                DB::table('roles')->insert([
+                    'id'         => (string) Str::uuid(),
+                    'nombre'     => $nombre,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+        }
     }
 }

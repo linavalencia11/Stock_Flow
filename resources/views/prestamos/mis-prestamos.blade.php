@@ -12,13 +12,15 @@
                 <p class="text-sm font-bold text-white">
                     {{ $prestamos->count() }} {{ $prestamos->count() === 1 ? 'préstamo registrado' : 'préstamos registrados' }}
                 </p>
-                <a href="{{ route('prestamos.create') }}"
-                   class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-4 py-2 rounded-lg transition-colors">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                    </svg>
-                    Nuevo préstamo
-                </a>
+                @can('permiso', 'prestamos.solicitar')
+                    <a href="{{ route('prestamos.create') }}"
+                       class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-4 py-2 rounded-lg transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        Nuevo préstamo
+                    </a>
+                @endcan
             </div>
 
             <div class="bg-gray-800 rounded-lg shadow-xl border border-gray-700 overflow-hidden">
@@ -67,26 +69,6 @@
                                                class="inline-flex items-center text-xs bg-gray-600 hover:bg-gray-500 text-white px-3 py-1.5 rounded font-bold transition-colors">
                                                 Ver
                                             </a>
-                                            @if(in_array(auth()->user()->rol->nombre, ['Administrador', 'Custodio']))
-                                                @if (!in_array($prestamo->estado, ['devuelto', 'rechazado', 'cancelado']))
-                                                    <a href="{{ route('prestamos.edit', $prestamo->id) }}"
-                                                    class="inline-flex items-center text-xs bg-yellow-500 hover:bg-yellow-600 text-black px-3 py-1.5 rounded font-bold transition-colors" style="color: #FFD700">
-                                                        Editar
-                                                    </a>
-                                                @endif
-                                                    @if(auth()->user()->rol->nombre === 'Administrador')
-                                                        @if (!in_array($prestamo->estado, ['entregado']))
-                                                            <form method="POST" action="{{ route('prestamos.destroy', $prestamo->id) }}"
-                                                                class="inline" onsubmit="return confirm('¿Eliminar este préstamo?')">
-                                                                @csrf @method('DELETE')
-                                                                <button type="submit"
-                                                                        class="inline-flex items-center text-xs bg-red-600 hover:bg-red-750 text-white px-3 py-1.5 rounded font-bold transition-colors">
-                                                                    Eliminar
-                                                                </button>
-                                                            </form>
-                                                        @endif
-                                                    @endif
-                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

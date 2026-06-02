@@ -74,7 +74,7 @@
                                                class="inline-flex items-center text-xs bg-yellow-500 hover:bg-yellow-600 text-black px-3 py-1.5 rounded font-bold transition-colors" style="color: #FFD700">
                                                 Editar
                                             </a>
-                                            @if(auth()->user()->rol->nombre === 'Administrador')
+                                            @can('permiso', 'stock.gestionar_categorias')
                                                 <form method="POST" action="{{ route('categorias.destroy', $categoria->id) }}"
                                                     class="inline" onsubmit="return confirm('¿Eliminar esta categoría?')">
                                                     @csrf @method('DELETE')
@@ -83,7 +83,7 @@
                                                         Eliminar
                                                     </button>
                                                 </form>
-                                            @endif
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach
