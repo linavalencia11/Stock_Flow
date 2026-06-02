@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\PermisoController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'permission:administracion.registrar_usuarios'])->group(function () {
@@ -19,4 +20,8 @@ Route::middleware(['auth', 'permission:administracion.editar_usuarios_roles'])->
 
 Route::middleware(['auth', 'permission:administracion.desactivar_usuarios'])->group(function () {
     Route::delete('/usuarios/{id}', [UsuarioController::class, 'destroy'])->name('usuarios.destroy');
+});
+
+Route::middleware(['auth' , 'permission:permisos.ver_lista'])->group(function () {
+    Route::resource('permisos', PermisoController::class);
 });

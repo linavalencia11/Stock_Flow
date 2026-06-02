@@ -31,7 +31,23 @@
                         </header>
                     @endisset
 
-                    <main class="p-4 sm:p-6 lg:p-8">
+                    <main class="p-4 sm:p-6 lg:p-8 space-y-6">
+                        @if (session('success') || session('error'))
+                            <div class="max-w-7xl mx-auto space-y-3">
+                                @if (session('success'))
+                                    <div class="rounded-xl border border-green-600 bg-green-700/10 px-4 py-4 text-sm font-semibold text-green-100 shadow-sm">
+                                        {{ session('success') }}
+                                    </div>
+                                @endif
+
+                                @if (session('error'))
+                                    <div class="rounded-xl border border-red-600 bg-red-700/10 px-4 py-4 text-sm font-semibold text-red-100 shadow-sm" style= "color:aliceblue">
+                                        {{ session('error') }}
+                                    </div>
+                                @endif
+                            </div>
+                        @endif
+
                         {{ $slot }}
                     </main>
                 </div>

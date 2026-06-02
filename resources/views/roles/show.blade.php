@@ -29,9 +29,31 @@
                         </div>
                     </dl>
 
-                    @if ($rol->usuarios->isNotEmpty())
-                        <div class="mt-6 border-t border-gray-700 pt-4">
-                            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Usuarios con este rol</h3>
+                    <div class="mt-6 border-t border-gray-700 pt-4">
+                        <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">
+                            Permisos incluidos en este rol ({{ $rol->permisos->count() }})
+                        </h3>
+
+                        @if ($rol->permisos->isNotEmpty())
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-48 overflow-y-auto pr-1">
+                                @foreach ($rol->permisos as $permiso)
+                                    <div class="p-2 rounded-lg bg-gray-900 border border-gray-700/60 flex flex-col justify-center" style = "color:aliceblue">
+                                        <span class="text-xs font-bold text-indigo-400 font-mono">{{ $permiso->nombre }}</span>
+                                        @if($permiso->descripcion)
+                                            <span class="text-[11px] text-gray-400 mt-0.5 line-clamp-1" style = "color:aliceblue">{{ $permiso->descripcion }}</span>
+                                        @endif
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <p class="text-xs text-gray-400 italic">Este rol no cuenta con ningún permiso asignado todavía.</p>
+                        @endif
+                    </div>
+
+                    <div class="mt-6 border-t border-gray-700 pt-4">
+                        <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Usuarios con este rol</h3>
+
+                        @if ($rol->usuarios->isNotEmpty())
                             <ul class="space-y-2">
                                 @foreach ($rol->usuarios as $usuario)
                                     <li class="text-sm bg-gray-750/40 p-2 rounded-lg border border-gray-700/50 flex justify-between items-center">
@@ -43,8 +65,10 @@
                                     </li>
                                 @endforeach
                             </ul>
-                        </div>
-                    @endif
+                        @else
+                            <p class="text-xs text-gray-400 italic">No hay usuarios vinculados a este rol.</p>
+                        @endif
+                    </div>
                 </div>
 
                 <div class="flex items-center gap-3">

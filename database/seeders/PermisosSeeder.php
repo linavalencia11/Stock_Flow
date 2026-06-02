@@ -49,6 +49,13 @@ class PermisosSeeder extends Seeder
             'administracion.editar_usuarios_roles' => 'Editar usuarios y asignar roles',
             'administracion.desactivar_usuarios' => 'Desactivar usuarios',
 
+            // Módulo: Permisos
+            'permisos.ver_lista' => 'Ver lista de permisos',
+            'permisos.crear' => 'Crear permisos',
+            'permisos.editar' => 'Editar permisos',
+            'permisos.eliminar' => 'Eliminar permisos',
+            'permisos.ver_detalle' => 'Ver detalle de permisos',
+
             // Módulo: Reportes
             'reportes.ver_mis_prestamos' => 'Ver mis préstamos personales',
             'reportes.ver_reporte_general' => 'Ver reporte general de préstamos',
@@ -104,6 +111,11 @@ class PermisosSeeder extends Seeder
                 'reportes.ver_mis_prestamos',
                 'reportes.ver_reporte_general',
                 'reportes.ver_articulos_mas_solicitados',
+                'permisos.ver_lista',
+                'permisos.crear',
+                'permisos.editar',
+                'permisos.eliminar',
+                'permisos.ver_detalle',
             ]),
         ];
     }
@@ -124,7 +136,6 @@ class PermisosSeeder extends Seeder
 
             if ($rol === null) {
                 $this->command?->warn("Rol «{$nombreRol}» no encontrado; omitiendo asignación de permisos.");
-
                 continue;
             }
 
@@ -134,7 +145,8 @@ class PermisosSeeder extends Seeder
                 if ($permisoId === null) {
                     continue;
                 }
-                $syncData[$permisoId] = ['id' => (string) Str::uuid()];
+
+                $syncData[] = $permisoId;
             }
 
             $rol->permisos()->sync($syncData);
