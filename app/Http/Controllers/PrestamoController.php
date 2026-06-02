@@ -131,6 +131,25 @@ class PrestamoController extends Controller
                          ->with('success', 'Préstamo eliminado exitosamente.');
     }
 
+    public function cancelar(string $id)
+    {
+        $prestamo = Prestamo::findOrFail($id);
+
+        if ($prestamo->solicitante_id !== auth()->id()) {
+            abort(403);
+        }
+
+        if ($prestamo->estado !== 'pendiente') {
+            return back()->with('error', 'Solo puedes cancelar solicitudes en estado pendiente.');
+        }
+
+        $prestamo->estado = 'cancelado';
+        $prestamo->save();
+
+        return redirect()->route('prestamos.usuario')
+                         ->with('success', 'Solicitud cancelada exitosamente.');
+    }
+
     public function misPrestamos()
     {
 
