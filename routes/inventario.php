@@ -4,12 +4,9 @@ use App\Http\Controllers\ArticuloController;
 use App\Http\Controllers\CategoriaController;
 use Illuminate\Support\Facades\Route;
 
+// Rutas estáticas de artículos ANTES que las dinámicas /{id}
 Route::middleware(['auth', 'permission:catalogo.ver_lista'])->group(function () {
     Route::get('/articulos', [ArticuloController::class, 'index'])->name('articulos.index');
-});
-
-Route::middleware(['auth', 'permission:catalogo.ver_detalle'])->group(function () {
-    Route::get('/articulos/{id}', [ArticuloController::class, 'show'])->name('articulos.show');
 });
 
 Route::middleware(['auth', 'permission:stock.agregar_articulo'])->group(function () {
@@ -26,6 +23,11 @@ Route::middleware(['auth', 'permission:stock.dar_baja_articulo'])->group(functio
     Route::delete('/articulos/{id}', [ArticuloController::class, 'destroy'])->name('articulos.destroy');
 });
 
+Route::middleware(['auth', 'permission:catalogo.ver_detalle'])->group(function () {
+    Route::get('/articulos/{id}', [ArticuloController::class, 'show'])->name('articulos.show');
+});
+
+// Categorías: create también antes que /{id}
 Route::middleware(['auth', 'permission:stock.gestionar_categorias'])->group(function () {
     Route::get('/categorias', [CategoriaController::class, 'index'])->name('categorias.index');
     Route::get('/categorias/create', [CategoriaController::class, 'create'])->name('categorias.create');
