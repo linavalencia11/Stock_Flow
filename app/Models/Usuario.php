@@ -29,11 +29,15 @@ class Usuario extends Authenticatable implements MustVerifyEmail
         'password' => 'hashed',
         'activo'   => 'boolean',
     ];
-    /*
     public function getRememberTokenName(): string
     {
         return '';
-    }*/
+    }
+
+    public function setRememberToken($value): void
+    {
+        // la tabla usuarios no tiene columna remember_token
+    }
 
     public function rol(): BelongsTo
     {
